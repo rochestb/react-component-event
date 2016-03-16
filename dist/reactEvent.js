@@ -81,31 +81,6 @@ function componentBroadcast(component, option) {
   };
 }
 
-function componentDiffuse(component) {
-
-  return function (event, args) {
-    //  const __global__ = getGlobalObject();
-    //
-    //  if (__global__.__ReactEventRoot) {
-    //    traverseAllChildren(__global__.__ReactEventRoot._reactInternalInstance._currentElement, (_component_, b) => {
-    //
-    //      //console.log(__global__.__ReactEventRoot._reactInternalInstance._currentElement, b)
-    //      //if (ReactTestUtils.isCompositeComponent(_component_)) {
-    //      //  if (_component_.__eventQueue && _component_.__eventQueue[event]) {
-    //      //    let index = null;
-    //      //
-    //      //    _component_.__eventQueue[event] = _component_.__eventQueue[event].filter((_listener_) => {
-    //      //      _listener_.callback(args);
-    //      //
-    //      //      return !_listener_.option.once;
-    //      //    });
-    //      //  }
-    //      //}
-    //    });
-    //  }
-  };
-}
-
 exports.default = function (component, option) {
 
   //const __global__ = getGlobalObject();
@@ -123,5 +98,4 @@ exports.default = function (component, option) {
   component.off = componentOff(component);
   component.emit = componentEmit(component);
   component.broadcast = componentBroadcast(component);
-  component.diffuse = componentDiffuse(component);
 };

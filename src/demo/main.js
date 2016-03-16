@@ -70,9 +70,7 @@ class Wrap extends React.Component {
   render() {
     return (
       <div className="wrap" onClick={() => {
-        this.diffuse('WrapClick', {
-          now: Date.now()
-        });
+
         this.setState({
          count: Math.random() > .5 ? [1] : [1, 2]
         });

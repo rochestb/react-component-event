@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "[[ $(find ./dist -type d 2>/dev/null) ]] && rm -r dist; exit 0",
     "build": "NODE_ENV=dev babel --presets react,es2015,stage-0 src/lib -d dist",
     "http-server": "http-server -p 3031"
   },
