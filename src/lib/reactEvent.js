@@ -74,17 +74,48 @@ function componentBroadcast(component, option) {
   }
 }
 
-export default (component, option) => {
-
-  component.__eventQueue = {};
+export default (target, key, descriptor) => {
 
 
-  component.on = componentOn(component, {});
-  component.once = componentOn(component, {
-    once: true
-  });
-  component.off = componentOff(component);
-  component.emit = componentEmit(component);
-  component.broadcast = componentBroadcast(component);
+  console.log(descriptor);
+
+  //const method = descriptor.value;
+  //let moreDef = 100;
+  //let ret;
+  //descriptor.value = (...args) => {
+  //  args[0] += moreDef;
+  //  ret = method.apply(target, args);
+  //};
+  //return descriptor;
+
+
+  //console.dir(target, key, descriptor);
+  //
+  //const con = target.prototype.constructor;
+  //
+  //
+  //
+  ////target.prototype.constructor = (props) => {
+  ////  //con(props);
+  ////  console.log(this);
+  ////};
+  //
+  //target.prototype.componentDidMount = () => {
+  //
+  //  target.prototype.componentDidMount();
+  //  console.log(this)
+  //};
+
+
+  //target.__eventQueue = [];
+  //
+  //target.on = componentOn(target, {});
+  //
+  //target.once = componentOn(target, {
+  //  once: true
+  //});
+  //target.off = componentOff(target);
+  //target.emit = componentEmit(target);
+  //target.broadcast = componentBroadcast(target);
 
 }

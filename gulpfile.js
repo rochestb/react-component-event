@@ -18,7 +18,8 @@ gulp.task('webpack:demo', (done) => {
           test: /\.js?$/,
           loader: 'babel',
           query: {
-            presets: ['react', 'es2015', 'stage-0']
+            presets: ['react', 'es2015', 'stage-0'],
+            plugins: ['transform-decorators-legacy']
           },
           exclude: /node_modules/
         }
@@ -47,9 +48,7 @@ gulp.task('copy:demo', () => {
 
 gulp.task('sass:demo', () => {
   return gulp.src('./src/demo/main.scss')
-    .pipe(sass({
-      includePaths: [require('bourbon').includePaths]
-    }).on('error', sass.logError))
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./demo'));
 });
 

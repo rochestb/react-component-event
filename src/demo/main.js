@@ -2,10 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import reactEvent from '../lib/reactEvent';
 
-class Grandson extends React.Component {
+@reactEvent class Grandson extends React.Component {
+
   constructor(props) {
     super(props);
-    reactEvent(this);
   }
 
   wrapClickHandler() {
@@ -13,8 +13,7 @@ class Grandson extends React.Component {
   }
 
   componentDidMount() {
-
-    //console.log(this);
+    console.log(this);
 
     this.on('WrapClick', this.wrapClickHandler.bind(this));
     this.once('WrapClick', () => {
@@ -35,10 +34,9 @@ class Grandson extends React.Component {
   }
 }
 
-class Child extends React.Component {
+@reactEvent class Child extends React.Component {
   constructor(props) {
     super(props);
-    reactEvent(this);
   }
 
   componentDidMount() {
@@ -67,16 +65,21 @@ class Child extends React.Component {
 class Wrap extends React.Component {
   constructor(props) {
     super(props);
-    reactEvent(this, {
-      isRoot: true
-    });
+
+    console.log(this);
     this.state = {
       count: []
     };
   }
 
+  @reactEvent
+
   componentDidMount() {
-    //console.log(this)
+    console.log(this)
+
+    this.on('WrapClick', event => {
+      console.log('click self');
+    });
   }
 
   render() {
