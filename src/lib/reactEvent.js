@@ -20,7 +20,6 @@ function componentOn(component, option) {
   }
 }
 
-
 function componentOff(component) {
 
   return (event, listener) => {
