@@ -1,0 +1,2 @@
+to top: component._reactInternalInstance._currentElement._owner._currentElement._owner._currentElement _instance
+to bottom: component._reactInternalInstance._renderedComponent._renderedChildren  _instance
