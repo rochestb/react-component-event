@@ -38,14 +38,26 @@ class Grandson extends React.Component {
 class Child extends React.Component {
   constructor(props) {
     super(props);
+    reactEvent(this);
+  }
+
+  componentDidMount() {
+
+    this.on('WrapClick', event => {
+      if (this.props.index === 1) {
+        event.stopPropagation();
+      }
+      this.emit('WrapClick');
+    });
   }
 
   render() {
     return (
       <div className="child">
         <p className="pp">
-          <Grandson>Button1</Grandson>
-          <Grandson>Button2</Grandson>
+          <span>{this.props.index}</span>
+          <Grandson>Button{this.props.index}-1</Grandson>
+          <Grandson>Button{this.props.index}-2</Grandson>
         </p>
       </div>
     );
@@ -75,7 +87,7 @@ class Wrap extends React.Component {
          count: Math.random() > .5 ? [1] : [1, 2]
         });
 
-        this.broadcast();
+        this.broadcast('WrapClick');
 
       }}>
         <span>The Wrap</span>
@@ -94,7 +106,7 @@ class Wrap extends React.Component {
               <div>
                 {
                   this.state.count.map(index => {
-                    return <Child key={index}></Child>
+                    return <Child key={index} index={index}></Child>
                   })
                 }
               </div>

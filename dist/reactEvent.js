@@ -8,14 +8,6 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _ReactTestUtils = require('react/lib/ReactTestUtils');
-
-var _ReactTestUtils2 = _interopRequireDefault(_ReactTestUtils);
-
-var _traverseAllChildren = require('react/lib/traverseAllChildren');
-
-var _traverseAllChildren2 = _interopRequireDefault(_traverseAllChildren);
-
 var _iterator = require('./iterator');
 
 var _iterator2 = _interopRequireDefault(_iterator);
@@ -43,8 +35,6 @@ function componentOn(component, option) {
     return false;
   };
 }
-//import traverseAllChildren from 'react/lib/traverseAllChildren';
-
 
 function componentOff(component) {
 
@@ -73,21 +63,32 @@ function componentEmit(component, option) {
 function componentBroadcast(component, option) {
 
   return function (event, args) {
-    //iterator.children(component, (_component_) => {
-    //  console.log(_component_);
-    //
-    //  return true;
-    //});
+    _iterator2.default.children(component, function (_component_) {
+      console.log(_component_);
+
+      var _propagation_ = true;
+
+      if (_component_.__eventQueue && _component_.__eventQueue[event]) {
+        _component_.__eventQueue[event] = _component_.__eventQueue[event].filter(function (_listener_) {
+
+          var event = {
+            stopPropagation: function stopPropagation() {
+              _propagation_ = false;
+            }
+          };
+
+          _listener_.callback(event, args);
+
+          return !_listener_.option.once;
+        });
+      }
+
+      return _propagation_;
+    });
   };
 }
 
 exports.default = function (component, option) {
-
-  //const __global__ = getGlobalObject();
-  //
-  //if (option && option.isRoot) {
-  //  __global__.__ReactEventRoot = component;
-  //}
 
   component.__eventQueue = {};
 

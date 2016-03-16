@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import ReactTestUtils from 'react/lib/ReactTestUtils';
-import traverseAllChildren from 'react/lib/traverseAllChildren';
 import iterator from './iterator';
-//import traverseAllChildren from 'react/lib/traverseAllChildren';
 import ReactDOM from 'react-dom';
 
 function componentOn(component, option) {
@@ -53,21 +50,32 @@ function componentEmit(component, option) {
 function componentBroadcast(component, option) {
 
   return (event, args) => {
-    //iterator.children(component, (_component_) => {
-    //  console.log(_component_);
-    //
-    //  return true;
-    //});
+    iterator.children(component, (_component_) => {
+      console.log(_component_);
+
+      let _propagation_ = true;
+
+      if (_component_.__eventQueue && _component_.__eventQueue[event]) {
+        _component_.__eventQueue[event] = _component_.__eventQueue[event].filter((_listener_) => {
+
+          let event = {
+            stopPropagation(){
+              _propagation_ = false;
+            }
+          };
+
+          _listener_.callback(event, args);
+
+          return !_listener_.option.once;
+        });
+      }
+
+      return _propagation_;
+    });
   }
 }
 
 export default (component, option) => {
-
-  //const __global__ = getGlobalObject();
-  //
-  //if (option && option.isRoot) {
-  //  __global__.__ReactEventRoot = component;
-  //}
 
   component.__eventQueue = {};
 
