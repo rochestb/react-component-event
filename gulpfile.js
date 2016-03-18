@@ -18,8 +18,7 @@ gulp.task('webpack:demo', (done) => {
           test: /\.js?$/,
           loader: 'babel',
           query: {
-            presets: ['react', 'es2015', 'stage-0'],
-            plugins: ['transform-decorators-legacy']
+            presets: ['react', 'es2015', 'stage-0']
           },
           exclude: /node_modules/
         }
@@ -65,7 +64,7 @@ gulp.task('watch:sass:demo', () => {
 });
 
 gulp.task('build', () => {
-  exec('npm run build').stdout.on('data', (data) => {
+  exec('npm run clean && npm run build').stdout.on('data', (data) => {
     util.log(data);
   });
 });
@@ -82,4 +81,4 @@ gulp.task('http-server', () => {
 
 gulp.task('watch:demo', ['watch:webpack:demo', 'watch:copy:demo', 'watch:sass:demo']);
 
-gulp.task('default', ['build', 'webpack:demo', 'copy:demo', 'watch:build', 'watch:demo', 'http-server']);
+gulp.task('default', ['build', 'webpack:demo', 'copy:demo', 'sass:demo', 'watch:build', 'watch:demo', 'http-server']);

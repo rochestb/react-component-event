@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import forOwn from 'lodash/forOwn';
 
 function _owner(component) {
   return component._currentElement._owner;
@@ -48,7 +48,7 @@ export default {
 
       if (_renderedChildren(tempComponent)) {
 
-        _.forOwn(_renderedChildren(tempComponent), subComponent => {
+        forOwn(_renderedChildren(tempComponent), subComponent => {
 
           childrenIterator(subComponent);
         });

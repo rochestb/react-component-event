@@ -1,28 +1,31 @@
 import React from 'react';
 import { render } from 'react-dom';
-import reactEvent from '../lib/reactEvent';
+import ReactComponentDecorator from '../lib/ReactComponentDecorator';
 
-@reactEvent class Grandson extends React.Component {
+class Grandson extends React.Component {
 
   constructor(props) {
     super(props);
+    ReactComponentDecorator(this);
   }
 
-  wrapClickHandler() {
-    console.log(this.props.children, 'clicked');
+  wrapClickHandler(event) {
+    console.log(event);
+    //event.stopImmediatePropagation();
+    console.log(this, 'clicked');
   }
 
   componentDidMount() {
-    console.log(this);
+    //console.log(this);
 
-    this.on('WrapClick', this.wrapClickHandler.bind(this));
-    this.once('WrapClick', () => {
+    this.on('WrapClick', this.wrapClickHandler);
+    this.on('WrapClick', () => {
       console.log('lalala');
     });
   }
 
   componentWillUnmount() {
-    this.off('WrapClick', this.wrapClickHandler.bind(this));
+    this.off('WrapClick', this.wrapClickHandler);
   }
 
   render() {
@@ -34,9 +37,10 @@ import reactEvent from '../lib/reactEvent';
   }
 }
 
-@reactEvent class Child extends React.Component {
+class Child extends React.Component {
   constructor(props) {
     super(props);
+    ReactComponentDecorator(this);
   }
 
   componentDidMount() {
@@ -54,8 +58,7 @@ import reactEvent from '../lib/reactEvent';
       <div className="child">
         <p className="pp">
           <span>{this.props.index}</span>
-          <Grandson>Button{this.props.index}-1</Grandson>
-          <Grandson>Button{this.props.index}-2</Grandson>
+          {this.props.children}
         </p>
       </div>
     );
@@ -65,20 +68,20 @@ import reactEvent from '../lib/reactEvent';
 class Wrap extends React.Component {
   constructor(props) {
     super(props);
+    ReactComponentDecorator(this);
 
-    console.log(this);
     this.state = {
       count: []
     };
   }
 
-  @reactEvent
-
   componentDidMount() {
-    console.log(this)
 
     this.on('WrapClick', event => {
-      console.log('click self');
+      if (this.asd.asd) {
+        console.log('click self');
+      }
+      console.log('click self----');
     });
   }
 
@@ -90,7 +93,11 @@ class Wrap extends React.Component {
          count: Math.random() > .5 ? [1] : [1, 2]
         });
 
+        console.log('this.broadcast WrapClick');
+
         this.broadcast('WrapClick');
+
+
 
       }}>
         <span>The Wrap</span>
@@ -109,7 +116,10 @@ class Wrap extends React.Component {
               <div>
                 {
                   this.state.count.map(index => {
-                    return <Child key={index} index={index}></Child>
+                    return <Child key={index} index={index}>
+                      <Grandson>Button{this.props.index}-1</Grandson>
+                      <Grandson>Button{this.props.index}-2</Grandson>
+                    </Child>
                   })
                 }
               </div>
