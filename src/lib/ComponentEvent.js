@@ -1,7 +1,7 @@
 export default class ComponentEvent {
-  constructor(eventName, uid, listener, component) {
+  constructor(eventName, listener, component) {
     this._type = eventName;
-    this._dispatchUID = uid;
+    this._dispatchUID = listener.uid;
     this._timeStamp = Date.now();
     this._dispatchListeners = listener;
     this._target = component;

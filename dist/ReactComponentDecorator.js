@@ -35,9 +35,10 @@ var _ComponentEvent2 = _interopRequireDefault(_ComponentEvent);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var slice = Array.prototype.slice;
+var currentUID = 0;
 
 function getUId() {
-  return (0, _random2.default)(10000000, 99999999);
+  return currentUID++;
 }
 
 function triggerEvent(eventName, component, args) {
@@ -51,7 +52,7 @@ function triggerEvent(eventName, component, args) {
 
       var listener = _listeners[key];
 
-      var event = new _ComponentEvent2.default(eventName, 123, listener, component);
+      var event = new _ComponentEvent2.default(eventName, listener, component);
 
       _listeners[key].fire(event, args);
 
@@ -103,7 +104,7 @@ function componentOff(component) {
   };
 }
 
-function componentEmit(component, option) {
+function componentEmit(component) {
   var _arguments = arguments;
 
 
@@ -119,7 +120,7 @@ function componentEmit(component, option) {
   };
 }
 
-function componentBroadcast(component, option) {
+function componentBroadcast(component) {
 
   return function () {
 

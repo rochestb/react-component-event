@@ -9,11 +9,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ComponentEvent = function () {
-  function ComponentEvent(eventName, uid, listener, component) {
+  function ComponentEvent(eventName, listener, component) {
     _classCallCheck(this, ComponentEvent);
 
     this._type = eventName;
-    this._dispatchUID = uid;
+    this._dispatchUID = listener.uid;
     this._timeStamp = Date.now();
     this._dispatchListeners = listener;
     this._target = component;

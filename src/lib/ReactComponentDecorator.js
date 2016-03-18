@@ -8,9 +8,10 @@ import Listener from './Listener';
 import ComponentEvent from './ComponentEvent';
 
 const slice = Array.prototype.slice;
+let currentUID = 0;
 
 function getUId() {
-  return random(10000000, 99999999);
+  return currentUID++;
 }
 
 function triggerEvent(eventName, component, args) {
@@ -24,7 +25,7 @@ function triggerEvent(eventName, component, args) {
 
       const listener = _listeners[key];
 
-      const event = new ComponentEvent(eventName, 123, listener, component);
+      const event = new ComponentEvent(eventName, listener, component);
 
       _listeners[key].fire(event, args);
 
@@ -80,7 +81,7 @@ function componentOff(component) {
   }
 }
 
-function componentEmit(component, option) {
+function componentEmit(component) {
 
   return () => {
 
@@ -95,7 +96,7 @@ function componentEmit(component, option) {
   }
 }
 
-function componentBroadcast(component, option) {
+function componentBroadcast(component) {
 
   return function () {
 
