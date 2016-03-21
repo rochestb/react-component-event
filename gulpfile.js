@@ -5,6 +5,8 @@ const util = require('gulp-util');
 const sass = require('gulp-sass');
 const exec = require('child_process').exec;
 const webpack = require('webpack-stream');
+const mocha = require('gulp-mocha');
+const karmaServer = require('karma').Server;
 
 gulp.task('webpack:demo', (done) => {
   const webpackConfig = {
@@ -77,6 +79,19 @@ gulp.task('http-server', () => {
   exec('npm run http-server').stdout.on('data', (data) => {
     util.log(data);
   });
+});
+
+gulp.task('test', function (done) {
+  new karmaServer({
+    configFile: __dirname + '/karma.conf.js'
+  }, done).start();
+});
+
+gulp.task('test:debug', function (done) {
+  new karmaServer({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: false
+  }, done).start();
 });
 
 gulp.task('watch:demo', ['watch:webpack:demo', 'watch:copy:demo', 'watch:sass:demo']);

@@ -1,134 +1,139 @@
 import React from 'react';
 import { render } from 'react-dom';
-import ReactComponentDecorator from '../lib/ReactComponentDecorator';
+//import ReactComponentDecorator from '../lib/ReactComponentDecorator';
+import iterator from '../lib/iterator';
 
-class Grandson extends React.Component {
+//class Component extends React.Component {
+//  componentDidMount() {
+//    const ids = [];
+//    iterator.parents(this, component => {
+//      console.log(component);
+//      return true;
+//    });
+//    console.log(ids);
+//  }
+//
+//  render() {
+//
+//    console.log(this.props.id);
+//
+//    return <div id={this.props.id}>
+//      <h1 onClick={event => {
+//
+//        let ids = [];
+//
+//        iterator.parents(this, component => {
+//
+//          ids.push(component.props.id);
+//          //return true;
+//          return false;
+//        });
+//
+//        console.log(this);
+//        console.log(ids);
+//
+//      }}>{this.props.id}</h1>
+//      {this.props.children}
+//    </div>
+//  }
+//}
+//
+//class ComponentTree extends React.Component {
+//
+//  componentDidMount() {
+//    const ids = [];
+//    iterator.children(this, component => {
+//      ids.push(component.props.id);
+//      return true;
+//    });
+//    console.log(ids);
+//  }
+//
+//  render() {
+//    return <div id="wrap.0">
+//      <div>
+//        <div>
+//          <div>
+//            <Component id="wrap.0.0">
+//              <div>
+//                <Component id="wrap.0.0.0"></Component>
+//                <Component id="wrap.0.0.1">
+//                  <div>
+//                    <Component id="wrap.0.0.1.0"></Component>
+//                    <Component id="wrap.0.0.1.1"></Component>
+//
+//                    <div>
+//                      <Component id="wrap.0.0.1.2"></Component>
+//                    </div>
+//                  </div>
+//                </Component>
+//              </div>
+//            </Component>
+//            <Component id="wrap.0.1">
+//              <div>
+//                <Component id="wrap.0.1.0"></Component>
+//                <Component id="wrap.0.1.1"></Component>
+//              </div>
+//            </Component>
+//          </div>
+//        </div>
+//      </div>
+//    </div>
+//  }
+//}
 
-  constructor(props) {
-    super(props);
-    ReactComponentDecorator(this);
-  }
 
-  wrapClickHandler(event) {
-    console.log(event);
-    //event.stopImmediatePropagation();
-    console.log(this, 'clicked');
-  }
+class Component extends React.Component {
 
   componentDidMount() {
-    //console.log(this);
-
-    this.on('WrapClick', this.wrapClickHandler);
-    this.on('WrapClick', () => {
-      console.log('lalala');
-    });
-  }
-
-  componentWillUnmount() {
-    this.off('WrapClick', this.wrapClickHandler);
+    if (this.props.id === 'wrap.0.0.1.2') {
+      console.log(this);
+      //theComponent = this;
+    }
   }
 
   render() {
-    return (
-      <button className="grandson" onClick={event => {
-        this.emit();
-      }}>{this.props.children}</button>
-    );
+    return <div id={this.props.id}><h1 onClick={event => {
+
+
+        console.log(this);
+
+      }}>{this.props.id}</h1>
+      {this.props.children}
+    </div>
   }
 }
 
-class Child extends React.Component {
-  constructor(props) {
-    super(props);
-    ReactComponentDecorator(this);
-  }
-
-  componentDidMount() {
-
-    this.on('WrapClick', event => {
-      if (this.props.index === 1) {
-        event.stopPropagation();
-      }
-      this.emit('WrapClick');
-    });
-  }
+class ComponentTree extends React.Component {
 
   render() {
-    return (
-      <div className="child">
-        <p className="pp">
-          <span>{this.props.index}</span>
-          {this.props.children}
-        </p>
-      </div>
-    );
-  }
-}
 
-class Wrap extends React.Component {
-  constructor(props) {
-    super(props);
-    ReactComponentDecorator(this);
-
-    this.state = {
-      count: []
-    };
-  }
-
-  componentDidMount() {
-
-    this.on('WrapClick', event => {
-      if (this.asd.asd) {
-        console.log('click self');
-      }
-      console.log('click self----');
-    });
-  }
-
-  render() {
-    return (
-      <div className="wrap" onClick={() => {
-
-        this.setState({
-         count: Math.random() > .5 ? [1] : [1, 2]
-        });
-
-        console.log('this.broadcast WrapClick');
-
-        this.broadcast('WrapClick');
-
-
-
-      }}>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-        <span>The Wrap</span>
-
+    return <div id="wrap.0">
+      <Component id="wrap.0.0">
         <div>
-          <div>
+          <Component id="wrap.0.0.0"></Component>
+          <Component id="wrap.0.0.1">
             <div>
+              <Component id="wrap.0.0.1.0"></Component>
+              <Component id="wrap.0.0.1.1"></Component>
+
               <div>
-                {
-                  this.state.count.map(index => {
-                    return <Child key={index} index={index}>
-                      <Grandson>Button{this.props.index}-1</Grandson>
-                      <Grandson>Button{this.props.index}-2</Grandson>
-                    </Child>
-                  })
-                }
+                <Component id="wrap.0.0.1.2"></Component>
               </div>
             </div>
-          </div>
+          </Component>
         </div>
-      </div>
-    );
+      </Component>
+      <Component id="wrap.0.1">
+        <div>
+          <Component id="wrap.0.1.0"></Component>
+          <Component id="wrap.0.1.1"></Component>
+        </div>
+      </Component>
+    </div>
   }
 }
+let target = document.createElement('div');
+document.body.appendChild(target);
 
-render(<Wrap/>, document.getElementById('example'));
+render(<ComponentTree id="wrap"/>, target);

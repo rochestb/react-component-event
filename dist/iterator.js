@@ -8,6 +8,14 @@ var _forOwn = require('lodash/forOwn');
 
 var _forOwn2 = _interopRequireDefault(_forOwn);
 
+var _last = require('lodash/last');
+
+var _last2 = _interopRequireDefault(_last);
+
+var _forEach = require('lodash/forEach');
+
+var _forEach2 = _interopRequireDefault(_forEach);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _owner(component) {
@@ -21,27 +29,43 @@ function _instance(component) {
 function _renderedComponent(reactComponent) {
   return reactComponent._renderedComponent;
 }
+
 function _renderedChildren(reactComponent) {
   return reactComponent._renderedChildren;
 }
 
 exports.default = {
-  parents: function parents(component, callback) {
+  parents: function parents(rootComponent, endComponent, callback) {
+    var result = [];
 
-    return function parentsIterator(component, parents) {
+    (function traverse(component, path) {
 
-      if (callback(_instance(component))) {
+      var keep = true;
+      var tempComponent = component;
 
-        if (_owner(component)) {
-          return parentsIterator(_owner(component), parents);
-        } else {
-          return parents;
-        }
+      while (keep && _instance(tempComponent)) {
+        path.push(_instance(tempComponent));
+        keep = _instance(tempComponent) !== endComponent;
+        tempComponent = _renderedComponent(tempComponent);
       }
-    }(component._reactInternalInstance, []);
+
+      if (!keep) {
+
+        result = path;
+      } else if (_renderedChildren(tempComponent)) {
+
+        (0, _forOwn2.default)(_renderedChildren(tempComponent), function (subComponent) {
+          traverse(subComponent, path.concat());
+        });
+      }
+    })(rootComponent._reactInternalInstance, []);
+
+    (0, _forEach2.default)(result.reverse(), function (_component) {
+      return callback(_component);
+    });
   },
   children: function children(component, callback) {
-    var children = [];
+
     (function childrenIterator(component) {
 
       var keep = true;
@@ -62,7 +86,5 @@ exports.default = {
         });
       }
     })(component._reactInternalInstance);
-
-    return children;
   }
 };

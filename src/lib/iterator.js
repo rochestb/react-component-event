@@ -1,4 +1,6 @@
 import forOwn from 'lodash/forOwn';
+import last from 'lodash/last';
+import forEach from 'lodash/forEach';
 
 function _owner(component) {
   return component._currentElement._owner;
@@ -11,28 +13,47 @@ function _instance(component) {
 function _renderedComponent(reactComponent) {
   return reactComponent._renderedComponent;
 }
+
 function _renderedChildren(reactComponent) {
   return reactComponent._renderedChildren;
 }
 
 export default {
-  parents(component, callback) {
 
-    return (function parentsIterator(component, parents) {
+  parents(rootComponent, endComponent, callback) {
+    let result = [];
 
-      if (callback(_instance(component))) {
+    (function traverse(component, path) {
 
-        if (_owner(component)) {
-          return parentsIterator(_owner(component), parents);
-        } else {
-          return parents;
-        }
+      let keep = true;
+      let tempComponent = component;
+
+      while (keep && _instance(tempComponent)) {
+        path.push(_instance(tempComponent));
+        keep = _instance(tempComponent) !== endComponent;
+        tempComponent = _renderedComponent(tempComponent);
       }
-    })(component._reactInternalInstance, []);
+
+      if (!keep) {
+
+        result = path;
+
+      } else if (_renderedChildren(tempComponent)) {
+
+        forOwn(_renderedChildren(tempComponent), subComponent => {
+          traverse(subComponent, path.concat());
+        });
+      }
+
+    })(rootComponent._reactInternalInstance, []);
+
+    forEach(result.reverse(), _component => {
+      return callback(_component);
+    });
   },
 
   children (component, callback){
-    var children = [];
+
     (function childrenIterator(component) {
 
       let keep = true;
@@ -54,7 +75,5 @@ export default {
         });
       }
     })(component._reactInternalInstance);
-
-    return children;
   }
 }

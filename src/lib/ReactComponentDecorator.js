@@ -9,6 +9,7 @@ import ComponentEvent from './ComponentEvent';
 
 const slice = Array.prototype.slice;
 let currentUID = 0;
+let rootComponent;
 
 function getUId() {
   return currentUID++;
@@ -88,7 +89,7 @@ function componentEmit(component) {
     const eventName = arguments[0];
     const args = arguments::slice(1, arguments.length);
 
-    iterator.parents(component, _component => {
+    iterator.parents(rootComponent, component, _component => {
 
       return triggerEvent(eventName, _component, args);
 
@@ -111,7 +112,10 @@ function componentBroadcast(component) {
   }
 }
 
-export default (component) => {
+export default (component, option) => {
+
+  if (option.root)
+    rootComponent = component;
 
   component._reactComponentEventListeners = {};
 

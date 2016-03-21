@@ -36,6 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var slice = Array.prototype.slice;
 var currentUID = 0;
+var rootComponent = void 0;
 
 function getUId() {
   return currentUID++;
@@ -113,7 +114,7 @@ function componentEmit(component) {
     var eventName = _arguments[0];
     var args = slice.call(_arguments, 1, _arguments.length);
 
-    _iterator2.default.parents(component, function (_component) {
+    _iterator2.default.parents(rootComponent, component, function (_component) {
 
       return triggerEvent(eventName, _component, args);
     });
@@ -134,7 +135,9 @@ function componentBroadcast(component) {
   };
 }
 
-exports.default = function (component) {
+exports.default = function (component, option) {
+
+  if (option.root) rootComponent = component;
 
   component._reactComponentEventListeners = {};
 
