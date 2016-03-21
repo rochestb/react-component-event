@@ -2,7 +2,7 @@
   "name": "react-component-event",
   "version": "1.0.0",
   "description": "A react component event emit and broadcast tools.",
-  "main": "dist/index.js",
+  "main": "./dist/ReactComponentDecorator.js",
   "scripts": {
     "test": "gulp test",
     "clean": "[[ $(find ./dist -type d 2>/dev/null) ]] && rm -r dist; exit 0",
