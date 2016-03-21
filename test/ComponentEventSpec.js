@@ -2,21 +2,21 @@ import React from 'React';
 
 import ComponentEvent from '../src/lib/ComponentEvent';
 
-class Component extends React.Component {
-  render() {
-    return <div></div>
-  }
-}
-
 describe('ComponentEvent', () => {
 
   let componentEvent, eventName, listener, component;
+
+  class Component extends React.Component {
+    render() {
+      return <div></div>
+    }
+  }
 
   beforeEach(() => {
     eventName = 'FireInTheHole';
     component = <Component/>;
     listener = {
-      uid: '12345'
+      uid: '123456'
     };
     componentEvent = new ComponentEvent(eventName, listener, component);
   });

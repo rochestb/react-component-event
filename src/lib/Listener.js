@@ -32,5 +32,4 @@ export default class Listener {
   fire(event, args) {
     fakeDispatchEvent(this, event, args);
   }
-
 }
