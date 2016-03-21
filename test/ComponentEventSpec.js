@@ -54,7 +54,7 @@ describe('ComponentEvent', () => {
     expect(componentEvent.isImmediatePropagationStopped).toBe(false);
   });
 
-  it('isImmediatePropagationStopped should be true after stopImmediatePropagation be called.', () => {
+  it('isImmediatePropagationStopped should be true when stopImmediatePropagation have been called.', () => {
     componentEvent.stopImmediatePropagation();
     expect(componentEvent.isImmediatePropagationStopped).toBe(true);
   });

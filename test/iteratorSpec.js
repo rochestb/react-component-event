@@ -67,7 +67,7 @@ describe('iterator', () => {
     document.body.removeChild(target);
   });
 
-  it('children', () => {
+  it('children.', () => {
     const ids = [];
 
     iterator.children(rootComponent, (component) => {
@@ -89,7 +89,7 @@ describe('iterator', () => {
     ]);
   });
 
-  it('parents', () => {
+  it('parents.', () => {
     const ids = [];
 
     iterator.parents(rootComponent, endComponent, component => {
