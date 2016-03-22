@@ -1,3 +1,5 @@
+import isFunction from 'lodash/isFunction';
+
 let currentHandler, currentComponent, currentArgs;
 
 let dispatchFakeEvent = () => {
@@ -11,7 +13,8 @@ let dispatchFakeEvent = () => {
 if (document.addEventListener) {
   document.addEventListener('fakeEvents', function () {
     // execute the callback
-    currentHandler.apply(currentComponent, currentArgs)
+    if (isFunction(currentHandler))
+      currentHandler.apply(currentComponent, currentArgs)
   }, false);
 
   dispatchFakeEvent = () => {

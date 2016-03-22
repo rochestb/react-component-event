@@ -1,6 +1,7 @@
 import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
 import random from 'lodash/random';
+import isUndefined from 'lodash/isUndefined';
 import ReactDOM from 'react-dom';
 
 import iterator from './iterator';
@@ -84,16 +85,20 @@ function componentOff(component) {
 
 function componentEmit(component) {
 
-  return () => {
+  return function () {
 
     const eventName = arguments[0];
     const args = arguments::slice(1, arguments.length);
 
-    iterator.parents(rootComponent, component, _component => {
+    if (isUndefined(rootComponent)) {
+      console.error('Please set rootComponent first!');
+    } else {
 
-      return triggerEvent(eventName, _component, args);
+      iterator.parents(rootComponent, component, _component => {
 
-    });
+        return triggerEvent(eventName, _component, args);
+      });
+    }
   }
 }
 
@@ -114,7 +119,7 @@ function componentBroadcast(component) {
 
 export default (component, option) => {
 
-  if (option.root)
+  if (option && option.root)
     rootComponent = component;
 
   component._reactComponentEventListeners = {};
