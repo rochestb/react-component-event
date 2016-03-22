@@ -1,7 +1,7 @@
 import React from 'React';
 import {render} from 'react-dom';
 
-import iterator from '../dist/iterator';
+import iterator from '../src/lib/iterator';
 
 describe('iterator', () => {
 

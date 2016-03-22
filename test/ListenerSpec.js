@@ -4,7 +4,7 @@ import Listener from '../src/lib/Listener';
 
 describe('ComponentEvent', () => {
 
-  let listener, eventName, uid, handler, component, option;
+  let listener, eventName, uid, handler, component, option, result;
 
   class Component extends React.Component {
     render() {
@@ -15,46 +15,40 @@ describe('ComponentEvent', () => {
   beforeEach(() => {
     eventName = 'FireInTheHole';
     uid = 123456;
-    handler =
-      component = <Component/>;
+    handler = function eventHandler(event, arg1, arg2, arg3) {
+      result = [event, arg1, arg2, arg3]
+    };
+    component = <Component/>;
+    option = {
+      once: true
+    };
     listener = new Listener(eventName, uid, handler, component, option);
   });
 
-  it('should has attribute dispatchUID which equals listener.uid.', () => {
-    expect(componentEvent.dispatchUID).toBe(listener.uid);
+  it('should has attribute handler which is handler.', () => {
+    expect(listener.handler).toBe(handler);
   });
 
-  it('should has attribute bubbles which is true.', () => {
-    expect(componentEvent.bubbles).toBe(true);
+  it('should has attribute uid which equals uid.', () => {
+    expect(listener.uid).toBe(uid);
   });
 
-  it('bubbles should be false after stopPropagation be called.', () => {
-    componentEvent.stopPropagation();
-    expect(componentEvent.bubbles).toBe(false);
+  it('should has attribute component which is component.', () => {
+    expect(listener.component).toBe(component);
   });
 
-  it('should has attribute dispatchListeners which is listener.', () => {
-    expect(componentEvent.dispatchListeners).toBe(listener);
+  it('should has attribute option which is option.', () => {
+    expect(listener.option).toBe(option);
   });
 
-  it('should has attribute target which is component.', () => {
-    expect(componentEvent.target).toBe(component);
+  it('should has attribute name which is handle.name.', () => {
+    expect(listener.name).toBe(handler.name);
   });
 
-  it('should has attribute timeStamp.', () => {
-    expect(componentEvent.timeStamp).toBeDefined();
-  });
-
-  it('should has attribute type which is .', () => {
-    expect(componentEvent.type).toBe(eventName);
-  });
-
-  it('should has attribute isImmediatePropagationStopped which is false.', () => {
-    expect(componentEvent.isImmediatePropagationStopped).toBe(false);
-  });
-
-  it('isImmediatePropagationStopped should be true when stopImmediatePropagation have been called.', () => {
-    componentEvent.stopImmediatePropagation();
-    expect(componentEvent.isImmediatePropagationStopped).toBe(true);
+  it('result should be set when fire have been called.', () => {
+    const event = {type: 'FireInTheHole'};
+    const args = [1, 2, 3];
+    listener.fire(event, args);
+    expect(result).toEqual([event].concat(args));
   });
 });
