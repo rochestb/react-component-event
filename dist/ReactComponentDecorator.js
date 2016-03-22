@@ -16,6 +16,10 @@ var _random = require('lodash/random');
 
 var _random2 = _interopRequireDefault(_random);
 
+var _isUndefined = require('lodash/isUndefined');
+
+var _isUndefined2 = _interopRequireDefault(_isUndefined);
+
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -106,18 +110,21 @@ function componentOff(component) {
 }
 
 function componentEmit(component) {
-  var _arguments = arguments;
-
 
   return function () {
 
-    var eventName = _arguments[0];
-    var args = slice.call(_arguments, 1, _arguments.length);
+    var eventName = arguments[0];
+    var args = slice.call(arguments, 1, arguments.length);
 
-    _iterator2.default.parents(rootComponent, component, function (_component) {
+    if ((0, _isUndefined2.default)(rootComponent)) {
+      console.error('Please set rootComponent first!');
+    } else {
 
-      return triggerEvent(eventName, _component, args);
-    });
+      _iterator2.default.parents(rootComponent, component, function (_component) {
+
+        return triggerEvent(eventName, _component, args);
+      });
+    }
   };
 }
 
@@ -137,7 +144,7 @@ function componentBroadcast(component) {
 
 exports.default = function (component, option) {
 
-  if (option.root) rootComponent = component;
+  if (option && option.root) rootComponent = component;
 
   component._reactComponentEventListeners = {};
 
