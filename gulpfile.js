@@ -6,51 +6,56 @@ const sass = require('gulp-sass');
 const exec = require('child_process').exec;
 const webpack = require('webpack-stream');
 const mocha = require('gulp-mocha');
+const _ = require('lodash');
 const karmaServer = require('karma').Server;
 
-gulp.task('webpack:demo', (done) => {
-  const webpackConfig = {
-    entry: {
-      main: './src/demo/main.js',
-      vendor: ['react']
-    },
-    module: {
-      loaders: [
-        {
-          test: /\.js?$/,
-          loader: 'babel',
-          query: {
-            presets: ['react', 'es2015', 'stage-0']
-          },
-          exclude: /node_modules/
-        }
-      ]
-    },
-    resolve: {
-      extensions: ['', '.js', '.json']
-    },
-    output: {
-      filename: 'main.js'
-    },
-    plugins: [
-      new webpack.webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', Infinity)
+const webpackConfig = {
+  entry: {
+    main: './src/demo/main.js',
+    vendor: ['react']
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js?$/,
+        loader: 'babel',
+        query: {
+          presets: ['react', 'es2015', 'stage-0']
+        },
+        exclude: /node_modules/
+      }
     ]
-  };
+  },
+  resolve: {
+    extensions: ['', '.js', '.json']
+  },
+  output: {
+    filename: 'main.js'
+  },
+  plugins: [
+    new webpack.webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', Infinity)
+  ]
+};
 
+gulp.task('webpack:demo', (done) => {
   return gulp.src('./')
-    .pipe(webpack(webpackConfig).on('data', util.log).on('error', done))
-    .pipe(gulp.dest('./demo'));
+    .pipe(webpack(_.merge(webpackConfig, {
+      entry: {
+        main: './src/demo/deeptree/main.js'
+      }
+    })).on('data', util.log).on('error', done))
+    .pipe(gulp.dest('./demo/deeptree'));
 });
 
 gulp.task('copy:demo', () => {
-  return gulp.src('./src/demo/index.html')
-    .pipe(gulp.dest('./demo'));
+  return gulp.src('./src/demo/deeptree/index.html')
+    .pipe(gulp.dest('./demo/deeptree'));
 });
 
 gulp.task('sass:demo', () => {
-  return gulp.src('./src/demo/main.scss')
+  return gulp.src('./src/demo/deeptree/main.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./demo'));
+    .pipe(gulp.dest('./demo/deeptree'));
 });
 
 gulp.task('watch:webpack:demo', () => {
