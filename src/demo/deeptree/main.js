@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-//import ReactComponentDecorator from '../lib/ReactComponentDecorator';
-import iterator from '../lib/iterator';
+import ReactComponentDecorator from '../../lib/ReactComponentDecorator';
+
 
 //class Component extends React.Component {
 //  componentDidMount() {
@@ -82,22 +82,24 @@ import iterator from '../lib/iterator';
 //  }
 //}
 
+const FireInTheHole = 'FireInTheHole';
 
 class Component extends React.Component {
 
+  constructor(props) {
+    super(props);
+    ReactComponentDecorator(this);
+  }
+
   componentDidMount() {
-    if (this.props.id === 'wrap.0.0.1.2') {
-      console.log(this);
-      //theComponent = this;
-    }
+    this.on(FireInTheHole, (event, arg1, arg2) => {
+      console.log(event, arg1, arg2);
+    });
   }
 
   render() {
     return <div id={this.props.id}><h1 onClick={event => {
-
-
-        console.log(this);
-
+        this.emit(FireInTheHole, 1, 2);
       }}>{this.props.id}</h1>
       {this.props.children}
     </div>
@@ -105,6 +107,11 @@ class Component extends React.Component {
 }
 
 class ComponentTree extends React.Component {
+
+  constructor(props) {
+    super(props);
+    ReactComponentDecorator(this, {root: true});
+  }
 
   render() {
 
@@ -133,6 +140,7 @@ class ComponentTree extends React.Component {
     </div>
   }
 }
+
 let target = document.createElement('div');
 document.body.appendChild(target);
 
