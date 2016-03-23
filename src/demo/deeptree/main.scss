@@ -1,3 +1,58 @@
-.wrap {
-  background: #aaa;
+.node {
+  background: rgba(0, 0, 0, .1);
+  padding: 0 10px 10px 10px;
+  margin: 10px 0 0 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+  & > h1 {
+    padding: 4px 16px;
+    margin: 0 -10px 0 -10px;
+    background: rgba(0, 0, 0, .1);
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 12px;
+    line-height: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    i {
+      float: left;
+      height: 12px;
+      width: 24px;
+      margin: 4px 0;
+      -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+      border-radius: 6px;
+      background: #fff;
+    }
+    span {
+      float: left;
+    }
+    button {
+      float: left;
+      background: rgba(0, 0, 0, .5);
+      color: #fff;
+      margin: 0 4px;
+      padding: 2px 6px;
+      border: medium none;
+      font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      line-height: 16px;
+      font-size: 10px;
+      outline: medium none;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      cursor: pointer;
+      &:hover {
+        background: rgba(0, 0, 0, .3);
+      }
+    }
+    &:after {
+      display: block;
+      content: ' ';
+      clear: both;
+      height: 0;
+      line-height: 0;
+      font-size: 0;
+    }
+  }
 }

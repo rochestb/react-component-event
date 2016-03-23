@@ -63,7 +63,7 @@ gulp.task('watch:webpack:demo', () => {
 });
 
 gulp.task('watch:copy:demo', () => {
-  return gulp.watch('./src/demo/index.html', ['copy:demo']);
+  return gulp.watch('./src/demo/**/index.html', ['copy:demo']);
 });
 
 gulp.task('watch:sass:demo', () => {
