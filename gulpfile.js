@@ -5,7 +5,7 @@ const util = require('gulp-util');
 const sass = require('gulp-sass');
 const exec = require('child_process').exec;
 const webpack = require('webpack-stream');
-const mocha = require('gulp-mocha');
+const merge = require('merge-stream');
 const _ = require('lodash');
 const karmaServer = require('karma').Server;
 
@@ -38,24 +38,42 @@ const webpackConfig = {
 };
 
 gulp.task('webpack:demo', (done) => {
-  return gulp.src('./')
-    .pipe(webpack(_.merge(webpackConfig, {
-      entry: {
-        main: './src/demo/deeptree/main.js'
-      }
-    })).on('data', util.log).on('error', done))
-    .pipe(gulp.dest('./demo/deeptree'));
+  return merge(
+    gulp.src('./')
+      .pipe(webpack(_.merge(webpackConfig, {
+        entry: {
+          main: './src/demo/deeptree/main.js'
+        }
+      })).on('data', util.log).on('error', done))
+      .pipe(gulp.dest('./demo/deeptree')),
+    gulp.src('./')
+      .pipe(webpack(_.merge(webpackConfig, {
+        entry: {
+          main: './src/demo/dragable/main.js'
+        }
+      })).on('data', util.log).on('error', done))
+      .pipe(gulp.dest('./demo/dragable'))
+  );
 });
 
 gulp.task('copy:demo', () => {
-  return gulp.src('./src/demo/deeptree/index.html')
-    .pipe(gulp.dest('./demo/deeptree'));
+  return merge(
+    gulp.src('./src/demo/deeptree/index.html')
+      .pipe(gulp.dest('./demo/deeptree')),
+    gulp.src('./src/demo/dragable/index.html')
+      .pipe(gulp.dest('./demo/dragable'))
+  );
 });
 
 gulp.task('sass:demo', () => {
-  return gulp.src('./src/demo/deeptree/main.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./demo/deeptree'));
+  return merge(
+    gulp.src('./src/demo/deeptree/main.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('./demo/deeptree')),
+    gulp.src('./src/demo/dragable/main.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('./demo/dragable'))
+  );
 });
 
 gulp.task('watch:webpack:demo', () => {

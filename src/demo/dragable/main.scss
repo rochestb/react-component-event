@@ -1,0 +1,9 @@
+button {
+  border: medium none;
+  outline: medium none;
+  background: #ccc;
+  &.disabled {
+    background: #aaa;
+    color: #999;
+  }
+}
