@@ -19,6 +19,13 @@
     "url": "https://github.com/oglen/react-event/issues"
   },
   "homepage": "https://github.com/oglen/react-event#readme",
+  "keyword": [
+    "react",
+    "event",
+    "component communication",
+    "component",
+    "communication"
+  ],
   "dependencies": {
     "lodash": "^4.6.1"
   },
