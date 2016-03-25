@@ -117,14 +117,13 @@ function componentEmit(component) {
     var args = slice.call(arguments, 1, arguments.length);
 
     if ((0, _isUndefined2.default)(rootComponent)) {
-      console.error('Please set rootComponent first!');
-    } else {
-
-      _iterator2.default.parents(rootComponent, component, function (_component) {
-
-        return triggerEvent(eventName, _component, args);
-      });
+      console.warn('Please set rootComponent first!');
+      rootComponent = _iterator2.default.root(component);
     }
+
+    _iterator2.default.parents(rootComponent, component, function (_component) {
+      return triggerEvent(eventName, _component, args);
+    });
   };
 }
 

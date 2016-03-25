@@ -31,6 +31,7 @@ class Component extends React.Component {
   componentDidMount() {
 
     this.on(FireInTheHole, (event, arg) => {
+      console.log(this);
       this.setState({
         style: {
           background: rgb(arg)
@@ -74,7 +75,7 @@ class ComponentTree extends React.Component {
 
   constructor(props) {
     super(props);
-    ReactComponentDecorator(this, {root: true});
+    ReactComponentDecorator(this);
     this.state = {
       msg: {}
     };

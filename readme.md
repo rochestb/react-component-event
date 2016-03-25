@@ -53,7 +53,6 @@ Options for adding Less.js to your project:
 
         }
 
-
 ## Example
 
 There is a clear and concise example in the repo, preview it in following steps:

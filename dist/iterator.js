@@ -34,6 +34,10 @@ function _renderedChildren(reactComponent) {
   return reactComponent._renderedChildren;
 }
 
+function _currentElement(reactComponent) {
+  return reactComponent._currentElement;
+}
+
 exports.default = {
   parents: function parents(rootComponent, endComponent, callback) {
     var result = [];
@@ -86,5 +90,28 @@ exports.default = {
         });
       }
     })(component._reactInternalInstance);
+  },
+  parentsDirectly: function parentsDirectly(component, callback) {
+    return function parentsIterator(component, parents) {
+
+      if (callback(_instance(component))) {
+
+        if (_owner(component)) {
+          return parentsIterator(_owner(component), parents);
+        } else {
+          return parents;
+        }
+      }
+    }(component._reactInternalInstance, []);
+  },
+  root: function root(component) {
+
+    return function parent(component) {
+      if (_owner(component)) {
+        return parent(_owner(component));
+      } else {
+        return _instance(component);
+      }
+    }(component._reactInternalInstance);
   }
 };

@@ -18,6 +18,10 @@ function _renderedChildren(reactComponent) {
   return reactComponent._renderedChildren;
 }
 
+function _currentElement(reactComponent) {
+  return reactComponent._currentElement;
+}
+
 export default {
 
   parents(rootComponent, endComponent, callback) {
@@ -73,6 +77,31 @@ export default {
 
           childrenIterator(subComponent);
         });
+      }
+    })(component._reactInternalInstance);
+  },
+
+  parentsDirectly(component, callback){
+    return (function parentsIterator(component, parents) {
+
+      if (callback(_instance(component))) {
+
+        if (_owner(component)) {
+          return parentsIterator(_owner(component), parents);
+        } else {
+          return parents;
+        }
+      }
+    })(component._reactInternalInstance, []);
+  },
+
+  root(component){
+
+    return (function parent(component) {
+      if (_owner(component)) {
+        return parent(_owner(component));
+      } else {
+        return _instance(component);
       }
     })(component._reactInternalInstance);
   }
