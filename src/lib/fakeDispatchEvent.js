@@ -12,7 +12,7 @@ let dispatchFakeEvent = () => {
 };
 
 // Using document event if in browser
-if (document && document.addEventListener) {
+if (typeof document === 'object' && document.addEventListener) {
   document.addEventListener('fakeEvents', function () {
     // execute the callback
     if (isFunction(currentHandler))
