@@ -14,6 +14,7 @@ var currentHandler = void 0,
     currentComponent = void 0,
     currentArgs = void 0;
 
+// Dispatch event in try catch default
 var dispatchFakeEvent = function dispatchFakeEvent() {
   try {
     currentHandler.apply(currentComponent, currentArgs);
@@ -22,7 +23,8 @@ var dispatchFakeEvent = function dispatchFakeEvent() {
   }
 };
 
-if (document.addEventListener) {
+// Using document event if in browser
+if (document && document.addEventListener) {
   document.addEventListener('fakeEvents', function () {
     // execute the callback
     if ((0, _isFunction2.default)(currentHandler)) currentHandler.apply(currentComponent, currentArgs);
