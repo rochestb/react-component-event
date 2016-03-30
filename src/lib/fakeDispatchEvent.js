@@ -1,18 +1,9 @@
 import isFunction from 'lodash/isFunction';
 
-let currentHandler, currentComponent, currentArgs;
+let currentHandler, currentComponent, currentArgs, dispatchFakeEvent;
 
-// Dispatch event in try catch default
-let dispatchFakeEvent = () => {
-  try {
-    currentHandler.apply(currentComponent, currentArgs);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-// Using document event if in browser
 if (typeof document === 'object' && document.addEventListener) {
+  // Using document event if in browser
   document.addEventListener('fakeEvents', function () {
     // execute the callback
     if (isFunction(currentHandler))
@@ -23,6 +14,15 @@ if (typeof document === 'object' && document.addEventListener) {
     var fakeEvent = document.createEvent("UIEvents");
     fakeEvent.initEvent("fakeEvents", false, false);
     document.dispatchEvent(fakeEvent);
+  };
+} else {
+  // Dispatch event in try catch default
+  dispatchFakeEvent = () => {
+    try {
+      currentHandler.apply(currentComponent, currentArgs);
+    } catch (err) {
+      console.error(err);
+    }
   };
 }
 
