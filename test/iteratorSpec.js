@@ -104,4 +104,22 @@ describe('iterator', () => {
       'node'
     ]);
   });
+
+  it('parentsDirectly.', () => {
+    const ids = [];
+
+    iterator.parentsDirectly(endComponent, component => {
+      ids.push(component.props.id);
+      return true;
+    });
+
+    expect(ids).toEqual([
+      'node.0.0.1.2'
+    ]);
+  });
+
+  it('root.', () => {
+    var rootComponent = iterator.root(endComponent);
+    expect(rootComponent).toEqual(endComponent);
+  });
 });

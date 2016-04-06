@@ -91,13 +91,15 @@ function componentEmit(component) {
     const args = arguments::slice(1, arguments.length);
 
     if (isUndefined(rootComponent)) {
-      console.warn('Please set rootComponent first!');
-      rootComponent = iterator.root(component);
+      //console.warn('Please set rootComponent first!');
+      iterator.parents(iterator.root(component), component, _component => {
+        return triggerEvent(eventName, _component, args);
+      });
+    } else {
+      iterator.parents(rootComponent, component, _component => {
+        return triggerEvent(eventName, _component, args);
+      });
     }
-
-    iterator.parents(rootComponent, component, _component => {
-      return triggerEvent(eventName, _component, args);
-    });
   }
 }
 

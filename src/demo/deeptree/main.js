@@ -75,7 +75,7 @@ class ComponentTree extends React.Component {
 
   constructor(props) {
     super(props);
-    ReactComponentDecorator(this);
+    ReactComponentDecorator(this, {root: true});
     this.state = {
       msg: {}
     };
