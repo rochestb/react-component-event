@@ -59,10 +59,10 @@ There is a clear and concise example in the repo, preview it in following steps:
 
 Enter this project fold and execute:
 
-`npm install`
+        npm instasll
 
-`gulp`
+        gulp
 
 And visit link:
 
-`http://127.0.0.1:3031/demo/deeptree/`
+        http://127.0.0.1:3031/demo/deeptree/
