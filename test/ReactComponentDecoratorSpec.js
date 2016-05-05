@@ -18,7 +18,7 @@ describe('ReactComponentDecorator', () => {
     arg2: 2
   };
 
-  xdescribe('broadcast and emit', () => {
+  describe('broadcast and emit', () => {
 
     const FireInTheHole = 'FireInTheHole';
     const components = {};
@@ -197,7 +197,7 @@ describe('ReactComponentDecorator', () => {
     });
   });
 
-  xdescribe('stopPropagation', () => {
+  describe('stopPropagation', () => {
 
     const FireInTheHole = 'FireInTheHole';
     const components = {};
