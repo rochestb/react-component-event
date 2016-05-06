@@ -7,7 +7,6 @@ A React plugin which implemention convenient communication between React compone
 Options for adding Less.js to your project:
 
 * Install with [npm](https://npmjs.org): `npm install react-component-event`
-* [Download the latest release][download]
 * Clone the repo: `https://github.com/oglen/react-component-event`
 
 ## Usage
